@@ -1,4 +1,4 @@
-export default function Navbar(){
+export default function Navbar(props){
     return (
         <header>
             <nav>
@@ -8,7 +8,7 @@ export default function Navbar(){
                         <input placeholder="Search tasks.." />
                         <button className="nav-button">Search</button>
                     </div>
-                    <button className="nav-button">+ Add Task</button>
+                    <button className="nav-button" onClick={props.addTask}>+ Add Task</button>
                 </div>
             </nav>
         </header>

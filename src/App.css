@@ -100,24 +100,76 @@ main{
 }
 
 .task-status{
-  background-color: rgb(248, 113, 104);
+  
   border:none;
   border-radius: 5px;
-  color: #ffffff;
+  color: #dacedb;
   font-weight: bold;
   padding: 4px 4px 4px 4px;
 
 }
+.task-red{
+  background-color: rgb(248, 113, 104);
+}
+.task-green{
+  background-color: rgb(74, 158, 74);
+}
+.task-yellow{
+  background-color: rgb(156, 150, 68);
+}
 
 .task-label{
-  background-color: #dcfce7;
-  padding:4px 8px;
+  padding:4px 8px; 
   font-size: 15px;
   border-radius: 12px;
   font-weight: bold;
   margin-left: 10px;
-  color:#15803d;
 }
+
+
+
+/* 1. Study - 知识深蓝 (对应 Study) */
+.label-study {
+  background-color: rgba(64, 169, 255, 0.15);
+  color: #3991d4;
+}
+
+/* 2. Work - 商务灰蓝 (对应 Work) */
+.label-work {
+  background-color: rgba(244, 168, 121, 0.2);
+  color: #77511f;
+}
+
+/* 3. Life - 柔和粉紫 (对应 Life) */
+.label-life {
+  background-color: rgba(255, 133, 192, 0.15);
+  color: #ff85c0;
+}
+
+/* 4. Travel - 活力海蓝 (对应 Travel) */
+.label-travel {
+  background-color: rgba(55, 201, 187, 0.15);
+  color: #37c9bb;
+}
+
+/* 5. Health - 清新翠绿 (对应 Health) */
+.label-health {
+  background-color: rgba(85, 201, 105, 0.15);
+  color: #55c969;
+}
+
+/* 6. Finance - 温暖金黄 (对应 Finance) */
+.label-finance {
+  background-color: rgba(255, 196, 0, 0.15);
+  color: #ffc400;
+}
+
+/* 7. General - 低调浅灰 (对应 General) */
+.label-general {
+  background-color: rgba(151, 154, 145, 0.15);
+  color: #252524;
+}
+
 .task-operation-section{
   opacity: 0;
   display: flex;
@@ -158,3 +210,182 @@ main{
   font-size: 16px;
   font-weight: 600;
 }
+
+.form-overlay{
+  position:fixed;
+  top:0px;
+  left:0;
+  width:100vw;
+  height:100vh;
+  background-color: rgba(15,23,42,0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content:center;
+  align-items: flex-start;
+  z-index:1000;
+  gap:16px;
+  padding-top: 12vh;
+  box-sizing: border-box;
+}
+
+.form-container{
+  background-color: #3c3d3d;
+  width:65%;
+  max-width: 720px;
+  padding:0  40px;
+  border-radius: 14px;
+  border:1px solid #34495e;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.form-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  margin-right: -40px;
+  margin-left: -40px;
+  padding:20px 40px;
+  background-color: #2b2a2a;
+  border-bottom: 1px solid #7e8183;
+  color:#e2e8f0;
+  font-size: 20px;
+}
+
+
+.close-x-btn {
+
+  background: none;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-size: 26px; 
+  font-weight: 300;   
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%; 
+  transition: all 0.2s ease;
+  line-height: 1; 
+}
+
+
+.close-x-btn:hover {         
+  background-color: #34495e; 
+}
+
+
+.close-x-btn:active {
+  background-color: #455a64;  
+  transform: scale(0.92);   
+}
+
+.task-form{
+  display: flex;
+  gap:10px;
+  flex-direction: column;
+}
+
+.form-group{
+  margin-bottom: 20px;
+  display: flex;
+  gap:20px;
+  text-align: left;
+  align-items: center;
+  width:100%
+}
+
+.form-group label{
+  width:20%;
+  min-width: 90px;
+  font-size:14px;
+  font-weight: 600;
+  color:#eceff1;
+  text-transform: capitalize;
+  text-align: right;
+}
+
+.form-group input,
+.form-group select{
+  flex:1;
+  padding:10px 12px;
+  font-size: 14px;
+  border:1px solid #ffffff;
+  border-radius: 6px;
+  outline: none;
+  background-color:transparent;
+  color:#ffffff;
+  transition: all 0.2s;
+  box-sizing: border-box;
+}
+
+.form-actions{
+  display: flex;
+  justify-content: flex-end;
+  gap:20px;
+  margin-top: 8px;
+  width:100%;
+  box-sizing: border-box;
+  padding-bottom: 40px;
+  
+}
+
+
+
+
+.form-actions button {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center; 
+}
+
+
+.form-actions button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.form-actions button:active {
+  transform: translateY(0) scale(0.95); 
+  box-shadow: none;                      
+}
+
+
+.btn-submit {
+  background-color: #00b0ff; 
+  color: #ffffff;
+}
+
+
+.btn-submit:hover {
+  background-color: #0091ea;
+}
+
+
+.btn-close {
+  background-color: #34495e; 
+  color: #b0bec5;
+}
+
+.btn-close:hover {
+  background-color: #455a64;
+  color: #ffffff;
+}
+
+.required-star{
+  color: #ff5252;
+  margin-left: 4px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
