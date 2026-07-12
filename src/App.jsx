@@ -2,30 +2,32 @@ import './App.css'
 import Navbar from './components/Navbar'
 import Board from './components/Board'
 import React from "react"
-import Tasks from "./data/Data.js"
 import TaskForm from "./components/TaskForm"
 
 function App() {
   const [taskData, setTaskData]=React.useState([])
-  const [isChange, setIsChange]=React.useState(null)
+  const [formMode, setFormMode]=React.useState(null)
   const [editingTask, setEditingTask]=React.useState(null)
-  
+  const [searchTerm, setSearchTerm]=React.useState("")
+  const shownData=getShownData()
   function addTask(){
-    setIsChange("add")
+    setFormMode("add")
+  }
+  function prepareTaskFrom(id){
+    setEditingTask(taskData.find(item=>item.id===id))
   }
   function editTask(id){
-    setEditingTask(taskData.filter(item=>{
-      if(item.id===id){
-        return true
-      }
-      return false
-    })[0])
-    setIsChange("edit")
+    prepareTaskFrom(id)
+    setFormMode("edit")
+  }
+  function onView(id){
+    prepareTaskFrom(id)
+    setFormMode("view")
   }
 
   function handleInfo(formData){
     const newData=  Object.fromEntries(formData.entries())
-    const newTask={...newData, status:"to do", id:editingTask? editingTask.id:crypto.randomUUID()}
+    const newTask={...newData, status:editingTask?editingTask.status:"to do", id:editingTask? editingTask.id:crypto.randomUUID()}
     if(editingTask){
       setTaskData(prev=>{
         return prev.map(item=>{
@@ -41,22 +43,18 @@ function App() {
       setTaskData(prev=>[...prev,newTask])
     }
     setEditingTask(null)
-    setIsChange(null)
+    setFormMode(null)
   }
 
   function handleClose(){
-    setIsChange(null)
+    setFormMode(null)
     setEditingTask(null)
   }
+  
   function removeTask(id){
 
     setTaskData(prev=>{
-      return prev.filter(item=>{
-        if(item.id===id){
-          return false
-        }
-        return true
-      })
+      return prev.filter(item=>item.id!==id)
     })
   }
 
@@ -71,12 +69,25 @@ function App() {
       })
     })
   }
+  function handleSearch(event){
+    setSearchTerm(event.target.value)
+  }
+  function getShownData(){
+      if(!searchTerm){
+        return taskData
+      }else{
+        return taskData.filter(item=>item.title.toLowerCase().includes(searchTerm.toLowerCase()))
+        
+      }
+  }
+
+
 
   return (
     <>
-      <Navbar addTask={addTask} />
-      <Board taskData={taskData} editTask={editTask} removeTask={removeTask} moveTask={moveTask}/>
-      { isChange && <TaskForm handleInfo={handleInfo} handleClose={handleClose} editingTask={editingTask} />}
+      <Navbar addTask={addTask} handleSearch={handleSearch} hasMatchingTask={!searchTerm || shownData.length!==0}/>
+      <Board taskData={shownData} editTask={editTask} removeTask={removeTask} moveTask={moveTask} onView={onView} />
+      { formMode && <TaskForm key={editingTask?.id || "new"} handleInfo={handleInfo} handleClose={handleClose} editingTask={editingTask}  formMode={formMode}/>}
     </>
   )
 }
