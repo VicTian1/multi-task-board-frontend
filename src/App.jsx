@@ -10,7 +10,7 @@ function App() {
       return JSON.parse(localStorage.getItem("taskData"))||[]
       
     } catch(error){
-      console.log("Failed to parse taskData from localStoragee, resetting to empty array.",error)
+      console.log("Failed to parse taskData from localStorage, resetting to empty array.",error)
       return []
     } 
     
