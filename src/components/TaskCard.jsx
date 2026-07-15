@@ -2,8 +2,8 @@ import cardLabels from "../data/cardLabels"
 import React from "react"
 export default function TaskCard({info, editTask,id,removeTask,moveTask,onView}){
     const [showSelect,setShowSelect]=React.useState(false)
-    const {title,label,dueDate}=info
     const [shownDeleteConfirm, setShownDeleteConfirm]=React.useState(false)
+    const {title,label,dueDate}=info
     function getLabelClassName(){
         
         const cardLabel=cardLabels.find(item=>item.text===label)

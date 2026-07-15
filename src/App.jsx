@@ -5,7 +5,17 @@ import React from "react"
 import TaskForm from "./components/TaskForm"
 
 function App() {
-  const [taskData, setTaskData]=React.useState([])
+  const [taskData, setTaskData]=React.useState(()=>{
+     try{
+      return JSON.parse(localStorage.getItem("taskData"))||[]
+      
+    } catch(error){
+      console.log("Failed to parse taskData from localStoragee, resetting to empty array.",error)
+      return []
+    } 
+    
+  })
+   
   const [formMode, setFormMode]=React.useState(null)
   const [editingTask, setEditingTask]=React.useState(null)
   const [searchTerm, setSearchTerm]=React.useState("")
@@ -80,7 +90,9 @@ function App() {
         
       }
   }
-
+  React.useEffect(()=>{
+    localStorage.setItem("taskData",JSON.stringify(taskData))
+  },[taskData])
 
 
   return (
