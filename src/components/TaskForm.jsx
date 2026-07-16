@@ -1,10 +1,17 @@
 import cardLabels from "../data/cardLabels"
-
+import React from "react"
 export default function TaskForm(props){
 
     const cardLabelElements=cardLabels.map(label=>{
         return <option key={label.id} value={label.text}>{label.text}</option>
     })
+    const inputRef=React.useRef(null)
+
+    React.useEffect(()=>{
+        if((props.formMode==="edit"||props.formMode==="add") && inputRef.current){
+            inputRef.current.focus()
+        }
+    },[])
 
     return (
         <div className="form-overlay" onClick={props.handleClose}>
@@ -17,12 +24,12 @@ export default function TaskForm(props){
                     ? "Change Your Task"
                     : "Create New Task"
                     }</h2>
-                    <button type="button" className="close-x-btn" onClick={props.handleClose}>&times;</button>
+                    <button type="button" className="close-x-btn" aria-label="Close dialog" onClick={props.handleClose}>&times;</button>
                 </div>
                 <form action={props.handleInfo} className="task-form">
                     <div className="form-group">
                         <label htmlFor="title" >title <span className="required-star">*</span>: </label>
-                        <input id="title" name="title" type="text" required defaultValue={props.editingTask?.title || "" } readOnly={props.formMode==="view"} />
+                        <input ref={inputRef} id="title" name="title" type="text" required defaultValue={props.editingTask?.title || "" } readOnly={props.formMode==="view"} />
                     </div>
                     <div className="form-group">
                         <label htmlFor="description">description: </label>

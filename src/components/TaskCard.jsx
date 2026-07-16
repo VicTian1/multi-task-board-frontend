@@ -81,18 +81,18 @@ export default function TaskCard({info, editTask,id,removeTask,moveTask,onView})
     return (
         <div className="task-card" onClick={()=>{onView(id)}}>
             <div className="task-operation-section">
-                <button className="operation-button" onClick={(e)=>
+                <button aria-label="Edit task" className="operation-button" onClick={(e)=>
                 {
                     e.stopPropagation()
                     editTask(id)}
                     }>✏️</button>
-                <button className="operation-button" onClick={(e)=>
+                <button aria-label="Delete task" className="operation-button" onClick={(e)=>
                 {
                     e.stopPropagation()
                     openDeleteConfirm()
                     }}>🗑️</button>
                 <div className="dropdown-container">
-                    <button className="operation-button trigger-button" onClick={(e)=>
+                    <button aria-label="Move task" className="operation-button trigger-button" onClick={(e)=>
                     {
 
                         e.stopPropagation()

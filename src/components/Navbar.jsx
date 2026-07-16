@@ -7,7 +7,7 @@ export default function Navbar(props){
                 <div className="search-section">
                     <div className="search-wrapper">                 
                         <form className="search-input-group">
-                            <input placeholder="Search tasks..."  onChange={props.handleSearch} />
+                            <input aria-label="Search tasks" placeholder="Search tasks..."  onChange={props.handleSearch} />
                         </form>
                         {!props.hasMatchingTask && <div className="search-message">🔍 No matching task</div>}
                     </div>
