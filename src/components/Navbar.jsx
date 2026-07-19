@@ -9,7 +9,7 @@ export default function Navbar(props){
                         <form className="search-input-group">
                             <input aria-label="Search tasks" placeholder="Search tasks..."  onChange={props.handleSearch} />
                         </form>
-                        {!props.hasMatchingTask && <div className="search-message">🔍 No matching task</div>}
+                        {!props.hasMatchingTask && <div className="search-message" aria-live="polite">🔍 No matching task</div>}
                     </div>
                     <button className="nav-button" onClick={props.addTask}>+ Add Task</button>
                 </div>
