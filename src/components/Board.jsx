@@ -2,9 +2,9 @@ import Column from './Column'
 
 export default function Board({taskData, editTask,removeTask, moveTask, onView}){
     
-    const todoTasks=taskData.filter(task=>task.status==="to do")
-    const doingTasks=taskData.filter(task=>task.status==="doing")   
-    const doneTasks=taskData.filter(task=>task.status==="done")  
+    const todoTasks=taskData.filter(task=>task.status==="TODO")
+    const doingTasks=taskData.filter(task=>task.status==="DOING")   
+    const doneTasks=taskData.filter(task=>task.status==="DONE")  
 
     return (
             <main>

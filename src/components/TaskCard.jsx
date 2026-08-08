@@ -1,17 +1,15 @@
-import cardLabels from "../data/cardLabels"
+
 import React from "react"
 export default function TaskCard({info, editTask,id,removeTask,moveTask,onView}){
     const [showSelect,setShowSelect]=React.useState(false)
     const [shownDeleteConfirm, setShownDeleteConfirm]=React.useState(false)
-    const {title,label,dueDate}=info
-    function getLabelClassName(){
-        
-        const cardLabel=cardLabels.find(item=>item.text===label)
-        return `task-label ${ cardLabel? cardLabel.class:'label-general'}`
-    }
+    const {title,label,dueDate,labelName}=info
+
+    
     function getDueDateClassName(){
         const today=new Date();
-        const targetTime=new Date(dueDate)
+        today.setHours(0,0,0,0);
+        const targetTime=new Date(dueDate.replace(/-/g, "/"))
         const diffTime=targetTime.getTime()-today.getTime()
         const diffDays=Math.ceil(diffTime/(1000*60*60*24))
 
@@ -27,17 +25,17 @@ export default function TaskCard({info, editTask,id,removeTask,moveTask,onView})
         setShowSelect(prev=>!prev)
     }
     function renderMoveMenu(){
-        const doing=<button onClick={()=>moveTask(id,"doing")}  className="menu-item">doing</button>
-        const todo=<button onClick={()=>moveTask(id,"to do")}  className="menu-item">to do</button>
-        const done=<button onClick={()=>moveTask(id,"done")}  className="menu-item">done</button>
-        if (info.status==="to do"){
+        const doing=<button onClick={()=>moveTask(id,"DOING")}  className="menu-item">DOING</button>
+        const todo=<button onClick={()=>moveTask(id,"TODO")}  className="menu-item">TODO</button>
+        const done=<button onClick={()=>moveTask(id,"DONE")}  className="menu-item">DONE</button>
+        if (info.status==="TODO"){
             return(
                 <div className="dropdown-menu" onClick={e=>e.stopPropagation()}>
                     {doing}
                     {done}
                 </div>
             )
-        }else if(info.status==="doing"){
+        }else if(info.status==="DOING"){
             return (
                 <div className="dropdown-menu" onClick={e=>e.stopPropagation()}>
                     {todo}
@@ -105,7 +103,7 @@ export default function TaskCard({info, editTask,id,removeTask,moveTask,onView})
             <h3>{title}</h3>
             <div className="label-status-section">
                 {dueDate && <span className={getDueDateClassName()}>⏱️ {dueDate}</span>}
-                {label && <span className={getLabelClassName()}>{label}</span>}
+                {label && <span className={`task-label label-${label}`}>{labelName}</span>}
             </div>
             {shownDeleteConfirm && deleteConfirm()}
         </div>

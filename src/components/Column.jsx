@@ -14,6 +14,7 @@ export default function Column({title, tasks,editTask,removeTask,moveTask,onView
                 moveTask={moveTask}
                 onView={onView}
 
+
             />
         )
     })

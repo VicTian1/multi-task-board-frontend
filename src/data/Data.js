@@ -19,7 +19,7 @@ const Tasks = [
         id: 3,
         title: "Review Java Collections",
         description: "Review List, Set, and Map in Java before continuing backend development.",
-        label: "🏠 Life",
+        label: T,
         dueDate: "20 Jul",
         status:"to do"
     },
