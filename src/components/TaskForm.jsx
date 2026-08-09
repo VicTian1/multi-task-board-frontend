@@ -1,12 +1,15 @@
 
 import React from "react"
 export default function TaskForm(props){
- 
+    const [title,setTitle]=React.useState(props.editingTask?props.editingTask.title:"")
+    const [description,setDescription]=React.useState(props.editingTask?props.editingTask.description:"")
+    const [label,setLabel]=React.useState(props.editingTask?props.editingTask.label:"")
+    const [dueDate,setDueDate]=React.useState(props.editingTask?props.editingTask.dueDate:"")
     const cardLabelElements=props.label.map(label=>{
         return <option key={label.id} value={label.type}>{label.name}</option>
     })
     const inputRef=React.useRef(null)
-
+   
     const today=new Date().toISOString().split('T')[0];
 
     React.useEffect(()=>{
@@ -28,25 +31,29 @@ export default function TaskForm(props){
                     }</h2>
                     <button type="button" className="close-x-btn" aria-label="Close dialog" onClick={props.handleClose}>&times;</button>
                 </div>
-                <form action={props.handleInfo} className="task-form">
+                <form onSubmit={(event)=>{
+                    event.preventDefault()
+                    props.handleInfo({title,description,label,dueDate})
+                    }} 
+                    className="task-form">
                     <div className="form-group">
                         <label htmlFor="title" >title <span className="required-star">*</span>: </label>
-                        <input ref={inputRef} id="title" name="title" maxLength={100} type="text" required defaultValue={props.editingTask?.title || "" } readOnly={props.formMode==="view"} />
+                        <input ref={inputRef} id="title" name="title" maxLength={100} type="text" required value={title} onChange={e=>setTitle(e.target.value)} readOnly={props.formMode==="view"} />
                     </div>
                     <div className="form-group">
                         <label htmlFor="description">description: </label>
-                        <input id="description" name="description" type="text" maxLength={500} defaultValue={props.editingTask?.description || ""} readOnly={props.formMode==="view"}  />
+                        <input id="description" name="description" type="text" maxLength={500} value={description} onChange={e=>setDescription(e.target.value)} readOnly={props.formMode==="view"}  />
                     </div>
                     <div className="form-group">
                         <label htmlFor="label">label: </label>
-                        <select id="label" name="label" defaultValue={props.editingTask?.label || ""} disabled={props.formMode==="view"}  >
+                        <select id="label" name="label" value={label} onChange={e=>setLabel(e.target.value)} disabled={props.formMode==="view"}  >
                             <option value="" disabled>--choose a label--</option>
                             {cardLabelElements}
                         </select>
                     </div>
                     <div className="form-group">
                         <label htmlFor="dueDate">dueDate: </label>
-                        <input id="dueDate" name="dueDate" type="date" min={today} defaultValue={props.editingTask?.dueDate ||""} readOnly={props.formMode==="view"}  />
+                        <input id="dueDate" name="dueDate" type="date" min={today} value={dueDate} onChange={e=>setDueDate(e.target.value)} readOnly={props.formMode==="view"}  />
                     </div>
                     {props.formMode!=="view" && <div className="form-actions">
                         <button className="btn-submit" type="submit">{props.formMode==="edit"? "Change":"Add"}</button>

@@ -73,8 +73,7 @@ function App() {
     )
   }
 
-  function handleInfo(formData){
-    const newData=  Object.fromEntries(formData.entries())
+  function handleInfo(newData){
     const newTask={...newData, status:editingTask?editingTask.status:"TODO"}
     if(editingTask){
       updateTask(newTask)
