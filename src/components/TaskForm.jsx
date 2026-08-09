@@ -11,7 +11,10 @@ export default function TaskForm(props){
     const inputRef=React.useRef(null)
    
     const today=new Date().toISOString().split('T')[0];
-
+    const minDate=(props.formMode==="edit" && 
+                    props.editingTask?.dueDate<today)
+                    ?props.editingTask.dueDate
+                    :today
     React.useEffect(()=>{
         if((props.formMode==="edit"||props.formMode==="add") && inputRef.current){
             inputRef.current.focus()
@@ -53,7 +56,7 @@ export default function TaskForm(props){
                     </div>
                     <div className="form-group">
                         <label htmlFor="dueDate">dueDate: </label>
-                        <input id="dueDate" name="dueDate" type="date" min={today} value={dueDate} onChange={e=>setDueDate(e.target.value)} readOnly={props.formMode==="view"}  />
+                        <input id="dueDate" name="dueDate" type="date" min={minDate} value={dueDate} onChange={e=>setDueDate(e.target.value)} readOnly={props.formMode==="view"}  />
                     </div>
                     {props.formMode!=="view" && <div className="form-actions">
                         <button className="btn-submit" type="submit">{props.formMode==="edit"? "Change":"Add"}</button>
