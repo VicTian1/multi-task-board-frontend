@@ -3,7 +3,7 @@
    ========================================================================== */
 :root {
   /* 品牌核心色与动效 */
-  --primary-color: #5145cd;          /* 全局主紫色 */
+  --primary-color: #726da5;          /* 全局主紫色 */
   --transition-fast: all 0.15s ease-in-out; /* 统一的快过渡动效 */
   --transition-normal: all 0.2s ease;       /* 统一的标准过渡动效 */
 
@@ -276,6 +276,7 @@ main {
   box-sizing: border-box;
 }
 
+
 .form-container {
   background-color: var(--bg-form-container); /* ⚡ 调用深色表单变量 */
   width: 65%;
@@ -497,4 +498,137 @@ main {
   font-size: 14px;
   font-weight: 500;
   color: var(--text-muted); /* ⚡ 调用辅助文字变量 */
+}
+
+
+.register-login-card {
+  width: 100%;
+  max-width: 380px;
+  background-color: var(--bg-card, #ffffff);
+  border-radius: 12px;
+  padding: 32px 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--border-color, #e5e7eb);
+  box-sizing: border-box;
+}
+
+
+.register-login-header {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 24px;
+  color: var(--text-primary, #111827);
+}
+
+
+.register-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+
+.register-login-form > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+
+.register-login-form label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary, #374151);
+}
+
+
+.register-login-form input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border-input, #d1d5db);
+  font-size: 0.95rem;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.register-login-form input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+
+.register-login-form button {
+  width: 100%;
+  padding: 11px;
+  margin-top: 8px;
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.register-login-form button:hover {
+  background-color: #1d4ed8;
+}
+
+.register-login-form button:disabled {
+  background-color: #93c5fd;
+  cursor: not-allowed;
+}
+
+
+.register-login-footer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--text-muted, #6b7280);
+}
+
+
+.btn-link {
+  background: none;
+  border: none;
+  color: #2563eb;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 6px;
+  text-decoration: underline;
+  font-size: 0.875rem;
+}
+
+.btn-link:hover {
+  color: #1d4ed8;
+}
+
+
+
+.btn-logout {
+  background: transparent;
+  border: none;            
+  outline: none;           
+  color: #000000;           
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.4rem 0.85rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+}
+
+
+.btn-logout:hover {
+  background-color: #9c9fa2;
+}
+
+
+.btn-logout:active {
+  background-color: #e5e7eb;
 }

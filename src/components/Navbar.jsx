@@ -1,4 +1,6 @@
 export default function Navbar(props){
+
+    
     return (
         <header>
             <nav>
@@ -12,6 +14,7 @@ export default function Navbar(props){
                         {!props.hasMatchingTask && <div className="search-message" aria-live="polite">🔍 No matching task</div>}
                     </div>
                     <button className="nav-button" onClick={props.addTask}>+ Add Task</button>
+                    <button type="button" className="btn-logout" onClick={props.handleLogout}>Log Out</button>
                 </div>
             </nav>
         </header>
