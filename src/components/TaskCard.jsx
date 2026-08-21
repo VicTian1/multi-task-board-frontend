@@ -1,6 +1,7 @@
 
+import { Draggable } from "@hello-pangea/dnd";
 import React from "react"
-export default function TaskCard({info, editTask,id,removeTask,moveTask,onView}){
+export default function TaskCard({info, editTask,id,removeTask,moveTask,onView,index}){
     const [showSelect,setShowSelect]=React.useState(false)
     const [shownDeleteConfirm, setShownDeleteConfirm]=React.useState(false)
     const {title,label,dueDate,labelName}=info
@@ -76,36 +77,50 @@ export default function TaskCard({info, editTask,id,removeTask,moveTask,onView})
             </div>
         )
     }
-    return (
-        <div className="task-card" onClick={()=>{onView(id)}}>
-            <div className="task-operation-section">
-                <button aria-label="Edit task" className="operation-button" onClick={(e)=>
-                {
-                    e.stopPropagation()
-                    editTask(id)}
-                    }>✏️</button>
-                <button aria-label="Delete task" className="operation-button" onClick={(e)=>
-                {
-                    e.stopPropagation()
-                    openDeleteConfirm()
-                    }}>🗑️</button>
-                <div className="dropdown-container">
-                    <button aria-label="Move task" className="operation-button trigger-button" onClick={(e)=>
-                    {
 
+
+    return (
+        <Draggable key={id} draggableId={String(id)} index={index}>
+            {(provided)=>(
+                <div className="task-card" onClick={()=>{onView(id)}} 
+                ref={provided.innerRef}
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+                >
+                    <div className="task-operation-section" onMouseDown={(e)=>e.stopPropagation()}>
+                        <button aria-label="Edit task" className="operation-button" onClick={(e)=>
+                        {
                         e.stopPropagation()
-                        handleSelect()
-                    }
-                        }>▼</button>
-                    {showSelect && renderMoveMenu()}
-                </div>
-            </div>
-            <h3>{title}</h3>
-            <div className="label-status-section">
-                {dueDate && <span className={getDueDateClassName()}>⏱️ {dueDate}</span>}
-                {label && <span className={`task-label label-${label}`}>{labelName}</span>}
-            </div>
-            {shownDeleteConfirm && deleteConfirm()}
-        </div>
+                        editTask(id)}
+                        }>✏️</button>
+                        <button aria-label="Delete task" className="operation-button" onClick={(e)=>
+                        {
+                        e.stopPropagation()
+                        openDeleteConfirm()
+                        }}>🗑️</button>
+                        <div className="dropdown-container">
+                            <button aria-label="Move task" className="operation-button trigger-button" onClick={(e)=>
+                            {
+
+                            e.stopPropagation()
+                            handleSelect()
+                            }
+                            }>▼</button>
+                        {showSelect && renderMoveMenu()}
+                        </div>
+                    </div>
+                    <h3>{title}</h3>
+                    <div className="label-status-section">
+                        {dueDate && <span className={getDueDateClassName()}>⏱️ {dueDate}</span>}
+                        {label && <span className={`task-label label-${label}`}>{labelName}</span>}
+                    </div>
+                    {shownDeleteConfirm && deleteConfirm()}
+                 </div>
+            
+            )}
+        
+        </Draggable>
     )
+        
+   
 }

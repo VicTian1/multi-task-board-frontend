@@ -144,7 +144,7 @@ main {
   margin-bottom: 16px;
   border: 2px solid transparent;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  transition: var(--transition-fast); /* ⚡ 调用动效变量 */
+  /*transition: var(--transition-fast); /* ⚡ 调用动效变量 */
   cursor: pointer;
 }
 

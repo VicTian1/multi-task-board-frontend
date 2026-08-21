@@ -50,7 +50,7 @@ export default function TaskForm(props){
                     <div className="form-group">
                         <label htmlFor="label">label: </label>
                         <select id="label" name="label" value={label} onChange={e=>setLabel(e.target.value)} disabled={props.formMode==="view"}  >
-                            <option value="" disabled>--choose a label--</option>
+                            <option value="">--choose a label--</option>
                             {cardLabelElements}
                         </select>
                     </div>
