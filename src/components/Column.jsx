@@ -1,8 +1,8 @@
 import { Droppable } from "@hello-pangea/dnd"
 import TaskCard from "./TaskCard"
-export default function Column({title, tasks,editTask,removeTask,moveTask,onView}){
+export default function Column({title, tasks,editTask,removeTask,moveTask,onView,isSearching}){
     const emptyCard= <div className="task-card empty-card">
-        <p>No tasks yet</p>
+        <p>{isSearching? "No matching tasks":"No tasks yet"}</p>
     </div>
     const taskCardElements= tasks.map((task,index)=>{
     
@@ -16,6 +16,7 @@ export default function Column({title, tasks,editTask,removeTask,moveTask,onView
                 moveTask={moveTask}
                 onView={onView}
                 index={index}
+                isSearching={isSearching}
 
 
             />

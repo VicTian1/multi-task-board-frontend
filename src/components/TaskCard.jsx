@@ -1,7 +1,7 @@
 
 import { Draggable } from "@hello-pangea/dnd";
 import React from "react"
-export default function TaskCard({info, editTask,id,removeTask,moveTask,onView,index}){
+export default function TaskCard({info, editTask,id,removeTask,moveTask,onView,index,isSearching}){
     const [showSelect,setShowSelect]=React.useState(false)
     const [shownDeleteConfirm, setShownDeleteConfirm]=React.useState(false)
     const {title,label,dueDate,labelName}=info
@@ -57,7 +57,7 @@ export default function TaskCard({info, editTask,id,removeTask,moveTask,onView,i
     }
     function deleteConfirm(){
         return(
-            <div className="delete-overlay" onClick={e=>{
+            <div className="delete-overlay" role="dialog" aria-modal="true" onClick={e=>{
                 e.stopPropagation()
                 openDeleteConfirm()
             }}>
@@ -80,7 +80,7 @@ export default function TaskCard({info, editTask,id,removeTask,moveTask,onView,i
 
 
     return (
-        <Draggable key={id} draggableId={String(id)} index={index}>
+        <Draggable draggableId={String(id)} index={index} isDragDisabled={isSearching}>
             {(provided)=>(
                 <div className="task-card" onClick={()=>{onView(id)}} 
                 ref={provided.innerRef}

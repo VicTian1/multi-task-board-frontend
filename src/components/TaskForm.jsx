@@ -1,11 +1,18 @@
 
 import React from "react"
 export default function TaskForm(props){
-    const [title,setTitle]=React.useState(props.editingTask?props.editingTask.title:"")
-    const [description,setDescription]=React.useState(props.editingTask?props.editingTask.description:"")
-    const [label,setLabel]=React.useState(props.editingTask?props.editingTask.label:"")
-    const [dueDate,setDueDate]=React.useState(props.editingTask?props.editingTask.dueDate:"")
-    const cardLabelElements=props.label.map(label=>{
+    const [title,setTitle] =
+    React.useState(props.editingTask?.title ?? "")
+
+    const [description,setDescription] =
+    React.useState(props.editingTask?.description ?? "")
+
+    const [label,setLabel] =
+    React.useState(props.editingTask?.label ?? "")
+
+    const [dueDate,setDueDate] =
+    React.useState(props.editingTask?.dueDate ?? "")
+    const cardLabelElements=props.labels.map(label=>{
         return <option key={label.id} value={label.type}>{label.name}</option>
     })
     const inputRef=React.useRef(null)
@@ -19,10 +26,10 @@ export default function TaskForm(props){
         if((props.formMode==="edit"||props.formMode==="add") && inputRef.current){
             inputRef.current.focus()
         }
-    },[])
+    },[props.formMode])
 
     return (
-        <div className="form-overlay" onClick={props.handleClose}>
+        <div className="form-overlay" onClick={props.handleClose} role="dialog" aria-modal="true">
             <div className="form-container" onClick={e=>e.stopPropagation()}>
                 <div className="form-header">
                     <h2>{
@@ -40,22 +47,29 @@ export default function TaskForm(props){
                     }} 
                     className="task-form">
                     <div className="form-group">
-                        <label htmlFor="title" >title <span className="required-star">*</span>: </label>
+                        <label htmlFor="title" >Title <span className="required-star">*</span>: </label>
                         <input ref={inputRef} id="title" name="title" maxLength={100} type="text" required value={title} onChange={e=>setTitle(e.target.value)} readOnly={props.formMode==="view"} />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="description">description: </label>
-                        <input id="description" name="description" type="text" maxLength={500} value={description} onChange={e=>setDescription(e.target.value)} readOnly={props.formMode==="view"}  />
+                        <label htmlFor="description">Description: </label>
+                        <textarea
+                            id="description"
+                            name="description"
+                            maxLength={500}
+                            rows={4}
+                            value={description}
+                            onChange={e => setDescription(e.target.value)}
+                            readOnly={props.formMode === "view"}/>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="label">label: </label>
+                        <label htmlFor="label">Label: </label>
                         <select id="label" name="label" value={label} onChange={e=>setLabel(e.target.value)} disabled={props.formMode==="view"}  >
                             <option value="">--choose a label--</option>
                             {cardLabelElements}
                         </select>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="dueDate">dueDate: </label>
+                        <label htmlFor="dueDate">Due date: </label>
                         <input id="dueDate" name="dueDate" type="date" min={minDate} value={dueDate} onChange={e=>setDueDate(e.target.value)} readOnly={props.formMode==="view"}  />
                     </div>
                     {props.formMode!=="view" && <div className="form-actions">

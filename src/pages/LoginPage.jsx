@@ -1,7 +1,6 @@
 import React from "react"
 import apiClient from "../api/axios"
-import { toast, ToastContainer } from 'react-toastify'
-import "react-toastify/dist/ReactToastify.css"
+import { toast } from 'react-toastify'
 export default function LoginPage({onSwitchToRegister,loginSuccess}){
     const [username,setUsername]=React.useState("")
     const [password,setPassword]=React.useState("")
@@ -10,13 +9,12 @@ export default function LoginPage({onSwitchToRegister,loginSuccess}){
         e.preventDefault()
         apiClient.post("/api/auth/login",{"username":username,"password":password})
         .then(response=>{
-            toast.success("Login successfully")
+            toast.success("Login successful!")
             localStorage.setItem("token",response.data.token)
             loginSuccess()
             
     })
         .catch(error=>{
-            console.log("error: ",error)
             const errorMsg=error.response?.data?.message || error.message||"Request failed. Please try again later."
             toast.error(errorMsg)
         }

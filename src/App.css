@@ -101,6 +101,19 @@ header > nav {
 /* ==========================================================================
    3. 看板主体大局与卡片 (Main & Board)
    ========================================================================== */
+
+
+.loading-message {
+  min-height: calc(100vh - 80px);
+  padding-top: 120px;
+  box-sizing: border-box;
+  background-color: var(--bg-main);
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 18px;
+  font-weight: 500;
+}
+
 main {
   background-color: var(--bg-main); /* ⚡ 调用大背景变量 */
   display: flex;
@@ -144,7 +157,6 @@ main {
   margin-bottom: 16px;
   border: 2px solid transparent;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  /*transition: var(--transition-fast); /* ⚡ 调用动效变量 */
   cursor: pointer;
 }
 
@@ -357,7 +369,8 @@ main {
 }
 
 .form-group input,
-.form-group select {
+.form-group select,
+.form-group textarea {
   flex: 1;
   padding: 10px 12px;
   font-size: 14px;
@@ -370,8 +383,15 @@ main {
   box-sizing: border-box;
 }
 
+.form-group textarea {
+    resize: vertical;
+    min-height: 90px;
+    font-family: inherit;
+}
+
 /* 🎯 详情/只读状态下的防御性交互处理 */
 .form-group input[readonly],
+.form-group textarea[readonly],
 .form-group select:disabled {
   background-color: var(--bg-form-readonly); /* ⚡ 调用灰化背景变量 */
   color: var(--text-muted);                  /* ⚡ 调用暗淡文字变量 */
@@ -631,4 +651,65 @@ main {
 
 .btn-logout:active {
   background-color: #e5e7eb;
+}
+
+@media (max-width: 900px) {
+  header {
+    height: auto;
+    min-height: 80px;
+  }
+
+  header > nav {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 12px 20px;
+  }
+
+  .search-section {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  main {
+    flex-direction: column;
+    gap: 24px;
+    padding: 120px 20px 40px;
+  }
+
+  .column {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .form-container {
+    width: 90%;
+    padding: 0 24px;
+  }
+
+  .form-header {
+    margin-left: -24px;
+    margin-right: -24px;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+
+@media (hover: none) {
+  .task-operation-section {
+    opacity: 1;
+  }
+}
+
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.task-card:focus-within .task-operation-section {
+    opacity: 1;
 }

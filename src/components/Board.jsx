@@ -1,6 +1,6 @@
 import Column from './Column'
 
-export default function Board({taskData, editTask,removeTask, moveTask, onView}){
+export default function Board({taskData, editTask,removeTask, moveTask, onView, isSearching}){
     
     const todoTasks=taskData.filter(task=>task.status==="TODO").sort((a,b)=>a.index-b.index)
     const doingTasks=taskData.filter(task=>task.status==="DOING").sort((a,b)=>a.index-b.index)  
@@ -9,9 +9,9 @@ export default function Board({taskData, editTask,removeTask, moveTask, onView})
 
     return (
             <main>
-                <Column title="TODO" tasks={todoTasks} editTask={editTask} removeTask={removeTask} moveTask={moveTask} onView={onView} />
-                <Column title="DOING" tasks={doingTasks} editTask={editTask} removeTask={removeTask} moveTask={moveTask} onView={onView} />
-                <Column title="DONE" tasks={doneTasks} editTask={editTask} removeTask={removeTask} moveTask={moveTask} onView={onView} />
+                <Column title="TODO" tasks={todoTasks} editTask={editTask} removeTask={removeTask} moveTask={moveTask} onView={onView} isSearching={isSearching}/>
+                <Column title="DOING" tasks={doingTasks} editTask={editTask} removeTask={removeTask} moveTask={moveTask} onView={onView} isSearching={isSearching} />
+                <Column title="DONE" tasks={doneTasks} editTask={editTask} removeTask={removeTask} moveTask={moveTask} onView={onView} isSearching={isSearching} />
             </main>
             
 

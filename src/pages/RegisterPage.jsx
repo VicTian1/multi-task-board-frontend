@@ -1,7 +1,7 @@
 import React from "react"
 import apiClient from "../api/axios"
-import { toast, ToastContainer } from 'react-toastify'
-import "react-toastify/dist/ReactToastify.css"
+import { toast } from 'react-toastify'
+
 export default function RegisterPage({onSwitchToLogin}){
     const [username,setUsername]=React.useState("")
     const [password,setPassword]=React.useState("")
@@ -9,13 +9,13 @@ export default function RegisterPage({onSwitchToLogin}){
     function handleRegister(e){
         e.preventDefault()
         apiClient.post("/api/auth/register",{"username":username,"password":password})
-        .then(response=>{
-            toast.success("Register an account successfully")
+        .then(()=>{
+            toast.success("Account registered successfully!")
             onSwitchToLogin()
             
         })
         .catch(error=>{
-                console.log("error: ",error)
+            
                 const errorMsg=error.response?.data?.message || error.message||"Request failed. Please try again later."
                 toast.error(errorMsg)
             }
@@ -37,7 +37,7 @@ export default function RegisterPage({onSwitchToLogin}){
                         <input id="username" value={username} type="text" placeholder="Please enter your username"
                         onChange={e=>setUsername(e.target.value)} 
                         required  minLength={4} maxLength={16} pattern="[a-zA-Z0-9_]{4,16}$"
-                        title="Username must be 4-16 characters long and contain only contain letters,numbers, and underscores"
+                        title="Username must be 4-16 characters long and contain only letters,numbers, and underscores"
                         />
                     </div>
                     <div>

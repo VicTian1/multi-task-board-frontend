@@ -3,19 +3,19 @@ import Board from './Board'
 import React from "react"
 import TaskForm from "./TaskForm"
 import apiClient from '../api/axios'
-import { toast, ToastContainer } from 'react-toastify'
-import "react-toastify/dist/ReactToastify.css"
-import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'
+import { toast } from 'react-toastify'
+import { DragDropContext } from '@hello-pangea/dnd'
 
 
 export default function TaskBoard({handleLogout}){
     const [taskData, setTaskData]=React.useState([])
+    const [isLoadingTasks, setIsLoadingTasks] = React.useState(true)
       const [formMode, setFormMode]=React.useState(null)
       const [editingTask, setEditingTask]=React.useState(null)
       const [searchTerm, setSearchTerm]=React.useState("")
-      const [label,setLabel]=React.useState([])
+      const [labels,setLabels]=React.useState([])
       const enrichedTaskData= taskData.map(task=>{
-        const matchingLabel=label?.find(l=>l.type===task.label)
+        const matchingLabel=labels?.find(l=>l.type===task.label)
         return {...task,labelName:matchingLabel? matchingLabel.name:task.label}
       })
       const shownData=getShownData()
@@ -25,15 +25,15 @@ export default function TaskBoard({handleLogout}){
       function addTask(){
         setFormMode("add")
       }
-      function prepareTaskFrom(id){
+      function prepareEditingTask(id){
         setEditingTask(taskData.find(item=>item.id===id))
       }
       function editTask(id){
-        prepareTaskFrom(id)
+         prepareEditingTask(id)
         setFormMode("edit")
       }
       function onView(id){
-        prepareTaskFrom(id)
+         prepareEditingTask(id)
         setFormMode("view")
       }
     
@@ -52,7 +52,7 @@ export default function TaskBoard({handleLogout}){
             setFormMode(null)
           })
           .catch(error=>{
-              console.log("error: ",error)
+              
               const errorMsg=error.response?.data?.message || error.message||"Request failed. Please try again later."
               toast.error(errorMsg)
           }
@@ -67,7 +67,7 @@ export default function TaskBoard({handleLogout}){
           setFormMode(null)
       })
         .catch(error=>{
-            console.log("error: ",error)
+            
             const errorMsg=error.response?.data?.message || error.message||"Request failed. Please try again later."
             toast.error(errorMsg)
         }
@@ -89,7 +89,7 @@ export default function TaskBoard({handleLogout}){
         setEditingTask(null)
       }
 
-      function helperRemoveTask(id){
+      function removeTaskFromState(id){
           setTaskData(prev=>{
             const removedTask=prev.find(item=>item.id===id)
             if(!removedTask) return prev
@@ -110,28 +110,28 @@ export default function TaskBoard({handleLogout}){
       
       function removeTask(id){
         const oldTaskData=taskData
-        helperRemoveTask(id)
+        removeTaskFromState(id)
         apiClient.delete(`/api/tasks/${id}`)
-        .then(response=>{
+        .then(()=>{
           toast.info("Task deleted")
       })
         .catch(error=>{
             setTaskData(oldTaskData)
-            console.log("error: ",error)
+            
             const errorMsg=error.response?.data?.message || error.message||"Request failed. Please try again later."
             toast.error(errorMsg)
         }
         )
       }
 
-      function helperMoveTask(id,newStatus){
+      function moveTaskInState(id,newStatus){
         setTaskData(prev=>{
           const task=prev.find(item=>item.id===id)
           if(!task) return prev
           const oldStatus=task.status
           if(oldStatus===newStatus) return prev
           const newTask={...task,status:newStatus}
-          const columnTasks=prev.filter(item=>(item.status===oldStatus && item.id!=id)).sort((a,b)=>a.index-b.index)
+          const columnTasks=prev.filter(item=>(item.status===oldStatus && item.id!==id)).sort((a,b)=>a.index-b.index)
           const newColumnTasks=columnTasks.map((item,idx)=>({
             ...item,
             index:idx
@@ -141,7 +141,7 @@ export default function TaskBoard({handleLogout}){
             ...item,
             index:idx
           }))
-          const otherTasks=prev.filter(item=>item.status!==oldStatus && item.status!=newStatus)
+          const otherTasks=prev.filter(item=>item.status!==oldStatus && item.status!==newStatus)
           return [...newColumnTasks,...newAnotherColumnTasks,...otherTasks]
 
         })
@@ -150,15 +150,15 @@ export default function TaskBoard({handleLogout}){
     
       function moveTask(id,newStatus){
         const oldTaskData=taskData
-        helperMoveTask(id,newStatus)
+        moveTaskInState(id,newStatus)
         const statusData={status:newStatus}
         apiClient.patch(`/api/tasks/${id}/status`,statusData)
-        .then(response=>{
+        .then(()=>{
           toast.success("Changes saved successfully!")
       })
         .catch(error=>{
           setTaskData(oldTaskData)
-          console.log("error: ",error)
+          
           const errorMsg=error.response?.data?.message || error.message||"Request failed. Please try again later."
           toast.error(errorMsg)
         })
@@ -189,7 +189,7 @@ export default function TaskBoard({handleLogout}){
             ...item,
             index:idx
           }))
-          const otherTasks=prev.filter(item=>item.status!=sourceDroppableId)
+          const otherTasks=prev.filter(item=>item.status!==sourceDroppableId)
           return [...otherTasks,...newColumnTasks]
         })
       }
@@ -199,18 +199,18 @@ export default function TaskBoard({handleLogout}){
         setTaskData(prev=>{
           const task=prev.find(item=>String(item.id)===draggableId)
           const newTask={...task,status:destinationDroppableId}
-          const columnTasks=prev.filter(item=>item.status===sourceDroppableId).sort((a,b)=>a.index-b.index)
-          const currentIndex = columnTasks.findIndex(item => String(item.id) === draggableId)
+          const sourceColumnTasks=prev.filter(item=>item.status===sourceDroppableId).sort((a,b)=>a.index-b.index)
+          const currentIndex = sourceColumnTasks.findIndex(item => String(item.id) === draggableId)
 
-         columnTasks.splice(currentIndex, 1)
+         sourceColumnTasks.splice(currentIndex, 1)
         
-          const newColumnTasks=columnTasks.map((item,idx)=>({
+          const reindexedSourceTasks=sourceColumnTasks.map((item,idx)=>({
             ...item,
             index:idx
           }))
-          const anotherColumnTasks=prev.filter(item=>item.status===destinationDroppableId).sort((a,b)=>a.index-b.index)
-          anotherColumnTasks.splice(destinationIndex,0,newTask)
-          const newAnotherColumnTasks=anotherColumnTasks.map((item,idx)=>({
+          const destinationColumnTasks=prev.filter(item=>item.status===destinationDroppableId).sort((a,b)=>a.index-b.index)
+          destinationColumnTasks.splice(destinationIndex,0,newTask)
+          const reindexedDestinationTasks=destinationColumnTasks.map((item,idx)=>({
             ...item,
             index:idx
           }))
@@ -219,7 +219,7 @@ export default function TaskBoard({handleLogout}){
 
 
           
-          return [...newColumnTasks,...newAnotherColumnTasks,...otherTasks]
+          return [...reindexedSourceTasks,...reindexedDestinationTasks,...otherTasks]
 
         })
       }
@@ -242,12 +242,12 @@ export default function TaskBoard({handleLogout}){
           moveData={index:destination.index, status:destination.droppableId}
         }
         apiClient.patch(`/api/tasks/${draggableId}/move`,moveData)
-        .then(response=>{
+        .then(()=>{
           toast.success("Changes saved successfully!")
       })
         .catch(error=>{
           setTaskData(oldTaskData)
-          console.log("error: ",error)
+          
           const errorMsg=error.response?.data?.message || error.message||"Request failed. Please try again later."
           toast.error(errorMsg)
         })
@@ -260,25 +260,32 @@ export default function TaskBoard({handleLogout}){
     
       
     
-      React.useEffect(()=>{
-          apiClient.get("/api/tasks")
-          .then(response=>{
+    React.useEffect(() => {
+      apiClient.get("/api/tasks")
+        .then(response => {
             setTaskData(response.data)
-          })
-          .catch(error=>{
-              console.log("error: ",error)
-              const errorMsg=error.response?.data?.message || error.message||"Request failed. Please try again later."
-              toast.error(errorMsg)
-            })
-      },[])
+        })
+        .catch(error => {
+            
+            const errorMsg =
+                error.response?.data?.message ||
+                error.message ||
+                "Request failed. Please try again later."
+
+            toast.error(errorMsg)
+        })
+        .finally(() => {
+            setIsLoadingTasks(false)
+        })
+      }, [])
     
       React.useEffect(()=>{
           apiClient.get("/api/labels")
           .then(response=>{
-            setLabel(response.data)
+            setLabels(response.data)
           })
           .catch(error=>{
-              console.log("error: ",error)
+              
               const errorMsg=error.response?.data?.message || error.message||"Request failed. Please try again later."
               toast.error(errorMsg)
             })
@@ -294,8 +301,18 @@ export default function TaskBoard({handleLogout}){
             <DragDropContext onDragEnd={onDragEnd}>
               <>
                 <Navbar addTask={addTask} handleSearch={handleSearch} hasMatchingTask={!searchTerm || shownData.length!==0} handleLogout={handleLogout}/>
-                <Board taskData={shownData} editTask={editTask} removeTask={removeTask} moveTask={moveTask} onView={onView}/>
-                { formMode && <TaskForm key={editingTask?.id || "new"} handleInfo={handleInfo} handleClose={handleClose} editingTask={editingTask}  formMode={formMode} label={label}/>}
+                {isLoadingTasks
+                ? <div className="loading-message" role="status" aria-live="polite">Loading tasks...</div>
+                : <Board
+                    taskData={shownData}
+                    editTask={editTask}
+                    removeTask={removeTask}
+                    moveTask={moveTask}
+                    onView={onView}
+                    isSearching={Boolean(searchTerm)}
+                  />
+}
+                { formMode && <TaskForm key={editingTask?.id || "new"} handleInfo={handleInfo} handleClose={handleClose} editingTask={editingTask}  formMode={formMode} labels={labels}/>}
                 
               </>
             </DragDropContext>
