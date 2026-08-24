@@ -1,35 +1,31 @@
-/* ==========================================================================
-   1. 全局设计令牌 (Design Tokens) - 申研高级架构核心
-   ========================================================================== */
-:root {
-  /* 品牌核心色与动效 */
-  --primary-color: #726da5;          /* 全局主紫色 */
-  --transition-fast: all 0.15s ease-in-out; /* 统一的快过渡动效 */
-  --transition-normal: all 0.2s ease;       /* 统一的标准过渡动效 */
 
-  /* 亮色看板区色彩 */
-  --bg-main: #fafafa;                /* 网页大背景 */
-  --bg-column: #ebecf0;              /* 看板列背景 */
-  --bg-card: #f5f3ff;                /* 任务卡片背景 */
+:root {
   
-  /* 你坚持的深色表单区色彩 */
+  --primary-color: #726da5;          
+  --transition-fast: all 0.15s ease-in-out; 
+  --transition-normal: all 0.2s ease;       
+
+
+  --bg-main: #fafafa;               
+  --bg-column: #ebecf0;             
+  --bg-card: #f5f3ff;              
+  
+
   --bg-overlay: rgba(15, 23, 42, 0.4);
-  --bg-form-container: #3c3d3d;      /* 深色表单主体 */
-  --bg-form-header: #2b2a2a;         /* 深色表单头部 */
-  --bg-form-readonly: #58595b;       /* 只读输入框灰化背景 */
-  --border-form: #34495e;            /* 表单边框色 */
+  --bg-form-container: #3c3d3d;     
+  --bg-form-header: #2b2a2a;         
+  --bg-form-readonly: #58595b;       
+  --border-form: #34495e;           
   
-  /* 文字色彩 */
+
   --text-white: #ffffff;
   --text-dark: #1f2937;
-  --text-muted: #94a3b6;             /* 灰化/暗淡辅助文字 */
+  --text-muted: #94a3b6;             
 }
 
-/* ==========================================================================
-   2. 导航栏与头部 (Header)
-   ========================================================================== */
+
 header {
-  background-color: var(--primary-color); /* ⚡ 调用主色变量 */
+  background-color: var(--primary-color); 
   height: 80px;
   position: fixed;
   top: 0;
@@ -83,7 +79,7 @@ header > nav {
   border-radius: 5px;
   padding: 0 12px;
   cursor: pointer;
-  transition: var(--transition-normal); /* ⚡ 调用动效变量 */
+  transition: var(--transition-normal); 
   height: 40px;
 }
 .nav-button:hover{
@@ -98,9 +94,7 @@ header > nav {
   height: 40px;
 }
 
-/* ==========================================================================
-   3. 看板主体大局与卡片 (Main & Board)
-   ========================================================================== */
+
 
 
 .loading-message {
@@ -115,7 +109,7 @@ header > nav {
 }
 
 main {
-  background-color: var(--bg-main); /* ⚡ 调用大背景变量 */
+  background-color: var(--bg-main); 
   display: flex;
   gap: 40px;
   padding: 100px 80px;
@@ -125,7 +119,7 @@ main {
 
 .column {
   flex: 1;
-  background-color: var(--bg-column); /* ⚡ 调用列背景变量 */
+  background-color: var(--bg-column); 
   border-radius: 10px;
   padding: 16px;
 }
@@ -151,7 +145,7 @@ main {
 
 .task-card {
   position: relative;
-  background-color: var(--bg-card); /* ⚡ 调用卡片背景变量 */
+  background-color: var(--bg-card); 
   border-radius: 15px;
   padding: 16px;
   margin-bottom: 16px;
@@ -161,7 +155,7 @@ main {
 }
 
 .task-card:hover {
-  border-color: var(--primary-color); /* ⚡ 悬浮时自动联动主色 */
+  border-color: var(--primary-color); 
   box-shadow: 0 0 8px rgba(81, 69, 205, 0.25);
 }
 
@@ -169,9 +163,7 @@ main {
   margin: 0;
 }
 
-/* ==========================================================================
-   4. 卡片内标与操作菜单 (Labels & Operations)
-   ========================================================================== */
+
 .label-status-section {
   display: flex;
   align-items: center;
@@ -198,7 +190,7 @@ main {
   margin-left: 10px;
 }
 
-/* 分类标签配色配色 */
+
 .label-study { background-color: rgba(64, 169, 255, 0.15); color: #3991d4; }
 .label-work { background-color: rgba(244, 168, 121, 0.2); color: #77511f; }
 .label-life { background-color: rgba(255, 133, 192, 0.15); color: #ff85c0; }
@@ -268,9 +260,7 @@ main {
   background-color: #f5f5f5;
 }
 
-/* ==========================================================================
-   5. 核心大弹窗组件 (Form Modal - 完美保留你的深色高对比度焦点设计)
-   ========================================================================== */
+
 .form-overlay {
   position: fixed;
   top: 0;
@@ -290,7 +280,7 @@ main {
 
 
 .form-container {
-  background-color: var(--bg-form-container); /* ⚡ 调用深色表单变量 */
+  background-color: var(--bg-form-container); 
   width: 65%;
   max-width: 720px;
   padding: 0 40px;
@@ -310,7 +300,7 @@ main {
   margin-right: -40px;
   margin-left: -40px;
   padding: 20px 40px;
-  background-color: var(--bg-form-header); /* ⚡ 调用深色头部变量 */
+  background-color: var(--bg-form-header); 
   border-bottom: 1px solid #7e8183;
   color: #e2e8f0;
   font-size: 20px;
@@ -389,14 +379,14 @@ main {
     font-family: inherit;
 }
 
-/* 🎯 详情/只读状态下的防御性交互处理 */
+
 .form-group input[readonly],
 .form-group textarea[readonly],
 .form-group select:disabled {
-  background-color: var(--bg-form-readonly); /* ⚡ 调用灰化背景变量 */
-  color: var(--text-muted);                  /* ⚡ 调用暗淡文字变量 */
+  background-color: var(--bg-form-readonly); 
+  color: var(--text-muted);                 
   border-color: #e2e8f0;
-  cursor: not-allowed;                       /* 🚫 禁用光标 */
+  cursor: not-allowed;                       
 }
 
 .form-actions {
@@ -456,9 +446,7 @@ main {
   font-size: 14px;
 }
 
-/* ==========================================================================
-   6. 二次确认删除弹窗与空状态 (Delete Popup & Empty State)
-   ========================================================================== */
+
 .delete-overlay {
   position: fixed;
   inset: 0;
@@ -470,8 +458,8 @@ main {
 }
 
 .delete-mini-box {
-  width: 90%;                 /* ⚡ 响应式安全自适应 */
-  max-width: 400px;           /* ⚡ 限制最大宽度，防御文字挤爆 */
+  width: 90%;                 
+  max-width: 400px;           
   background-color: var(--text-white);
   padding: 24px;
   border-radius: 12px;
@@ -517,7 +505,7 @@ main {
 .task-card.empty-card p {
   font-size: 14px;
   font-weight: 500;
-  color: var(--text-muted); /* ⚡ 调用辅助文字变量 */
+  color: var(--text-muted); 
 }
 
 
